@@ -3,7 +3,7 @@ import logging
 import random
 import time
 from datetime import datetime, timedelta
-from funnyAPI import weather
+from funnyAPI import we
 import aiohttp
 import traceback
 from khl import Bot, Message, Cert
@@ -54,7 +54,7 @@ async def menu(msg: Message, *arg):
     c3.append(Module.Header('和我玩小游戏吧~ '))
     text = "「/r 1 100」掷骰子1-100，范围可自主调节。可在末尾添加第三个参数实现同时掷多个骰子\n"
     text += "「/cd 秒数」倒计时，默认60秒\n"
-    # text += "「/we 城市」查询城市未来3天的天气情况\n"
+    text += "「/we 城市」查询城市未来3天的天气情况\n"
     c3.append(Module.Section(Element.Text(text, Types.Text.KMD)))
     c3.append(Module.Divider())
     c3.append(
@@ -106,15 +106,8 @@ async def cd(msg: Message, countdown_second: int = 60, *args):
 
 # 天气
 @bot.command(name='we')
-async def we(msg: Message, city: str = "err"):
-    if city == "err":
-        await msg.reply(f"函数参数错误，城市: `{city}`\n")
-        return
-
-    try:
-        await weather(msg, city)
-    except Exception as result:
-        print(traceback.format_exc())  # 返回错误原因
+async def we_command(msg: Message, city: str = "err"):
+    await we(msg, city)  # 调用we函数
 
 
 # 状态区域
