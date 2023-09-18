@@ -3,7 +3,7 @@ import logging
 import random
 import time
 from datetime import datetime, timedelta
-from funnyAPI import we
+from funnyAPI import we, get_hitokoto
 import aiohttp
 import traceback
 from khl import Bot, Message, Cert
@@ -40,16 +40,16 @@ start_time = get_time()
 
 
 # 主菜单
-@bot.command(name='menu', aliases=['hello', 'menu', '菜单', 'seraphine'])
+@bot.command(name='menu', aliases=['hello', 'menu', '菜单', 'g7'])
 async def menu(msg: Message, *arg):
     cm = CardMessage()
     c3 = Card(
         Module.Header('你可以用下面这些指令呼叫我哦！'),
         Module.Context(
             Element.Text(f"开源代码见[Github](https://github.com/e8xl/8XL_kook_Music_bot),"
-                         f"机器人启动时间: [{start_time}]\n"
+                         f"|机器人启动时间: [{start_time}]\n"
                          f"娱乐部分参考项目[Ahri](https://github.com/Aewait/Valorant-Kook-Bot)", Types.Text.KMD)))
-    c3.append(Module.Section('「/seraphine」「/菜单」都可以呼叫我\n'))
+    c3.append(Module.Section('「/G7」「/菜单」「/menu」都可以呼叫我\n'))
     c3.append(Module.Divider())  # 分割线
     c3.append(Module.Header('和我玩小游戏吧~ '))
     text = "「/r 1 100」掷骰子1-100，范围可自主调节。可在末尾添加第三个参数实现同时掷多个骰子\n"
@@ -60,6 +60,12 @@ async def menu(msg: Message, *arg):
     c3.append(
         Module.Section(' 帮助github点个Star吧~', Element.Button('让我看看', 'https://www.8xl.icu', Types.Click.LINK)))
     c3.append(Module.Section('赞助一下吧~', Element.Button("赞助一下", 'https://afdian.net/a/888xl', Types.Click.LINK)))
+    """
+    一言会导致菜单响应速度过慢 参考服务器与API调用所影响 可以删除下面c3.append到KMD)))
+    """
+    c3.append(Module.Context(
+        Element.Text(f"{await get_hitokoto()}", Types.Text.KMD)  # 插入一言功能
+    ))
     cm.append(c3)
     await msg.reply(cm)
 

@@ -98,3 +98,18 @@ def we_function(city):
 
 # 使用函数工厂创建we函数
 we = we_function("err")
+
+
+# 一言API
+async def get_hitokoto():
+    api_url = "https://api.wrdan.com/hitokoto"
+
+    async with aiohttp.ClientSession() as session:
+        async with session.get(api_url) as response:
+            if response.status == 200:
+                hitokoto = await response.json()
+                hitokoto_text = hitokoto.get("text")
+                return hitokoto_text  # 返回一言文本
+            else:
+                print("API请求失败")
+                return None
