@@ -41,7 +41,7 @@ start_time = get_time()
 
 # 主菜单
 @bot.command(name='menu', aliases=['hello', 'menu', '菜单', 'g7'])
-async def menu(msg: Message, *arg):
+async def menu(msg: Message):
     cm = CardMessage()
     c3 = Card(
         Module.Header('你可以用下面这些指令呼叫我哦！'),

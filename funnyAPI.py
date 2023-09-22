@@ -48,7 +48,7 @@ async def send_weather_message(msg: Message, city: str, weather_data):
     current_time = datetime.now()
     cm = CardMessage()
     c1 = Card(Module.Header(
-        f"已为您查询 {city} 的天气，更新于 {weather_data['forecasts'][0]['reporttime']}"),
+        f"已为您查询 {weather_data['forecasts'][0]['city']} 的天气，更新于 {weather_data['forecasts'][0]['reporttime']}"),
         Module.Context('力尽不知热，但惜夏日长...\n'f"当前时间: {current_time.strftime('%Y-%m-%d %H:%M:%S')}"))
 
     # 使用datetime计算"今天"、"明天"和"后天"的日期
@@ -69,7 +69,9 @@ async def send_weather_message(msg: Message, city: str, weather_data):
         )
         c1.append(Module.Divider())
 
-    c1.append(Module.Context('天气部分来自高德，部分结果可能有出入，数据更新不及时敬请谅解'))
+    c1.append(Module.Context(
+        Element.Text('天气部分来自高德，部分结果可能有出入，数据更新不及时敬请谅解\n'
+                     '暂不支持除 **中国大陆** 省市区(县)以外的地区', Types.Text.KMD)))
     cm.append(c1)
     await msg.reply(cm)
 
